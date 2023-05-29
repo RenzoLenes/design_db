@@ -63,7 +63,7 @@ create table Productos(
     NombreProducto varchar(100) not null ,
     ColorProducto varchar(100) not null ,
     /*Modificar talla en el vertabelo se puso int*/
-    TallaProducto int not null ,
+    TallaProducto varchar(5) not null ,
     CostoBase float,
     CodigoCategoria int not null ,
     StockDisponible int,
