@@ -1,0 +1,91 @@
+use gaaa
+
+db.students.find()
+db.students.insertOne({first_name:"Ana", last_name:"Paredes",courses:[
+"IHC"
+]})
+
+db.students.find({courses:"IHC"})
+
+//titulo  --> obligatorio
+//direccion (ciudad,pais) -->obligatorio
+//usuario  (nombre) --> obligatorio
+//servicios
+use airbnb
+use gaaa
+db.dropDatabase("airbnb")
+
+
+
+// anfitrion: "object" --> obligatorio
+        // nombre: "string"
+        // fecha de registro: "string"
+// ubicacion: "object" --> obligatorio
+        // ciudad: "string"
+        // pais: "string"
+// tipo_alojamiento: "object" --> obligatorio
+        // habitaciones: "int"
+// titulo : "string" --> obligatorio
+// comentario: "array"
+        // "object"
+            // usuario: "string"
+            // calificacion: "int"
+// servicios: "array" --> servicios
+        // "string"
+
+db.createCollection("alojamientos",{
+
+    validator: {
+        $jsonSchema:{
+            bsonType:"object",
+            required: ["anfitrion","ubicacion","tipo_alojamiento",
+            "titulo", "servicios"],
+            properties: {
+                anfitrion:{
+                    bsonType: "object",
+                    required: ["name"],
+                    properties:{
+                        name:{
+                            bsonType:"string",
+
+                        }
+                    }
+                },
+                titulo:{
+                    bsonType: "string",
+                },
+                servicios:{
+                    bsonType:"array",
+                    minItems:1,
+                    items:{
+                        bsonType:"string",
+                    }
+                }
+            }
+
+
+        }
+    }
+
+})
+
+db.alojamientos.insertOne({
+    anfitrion:{name:"Ximena"},
+    ubicacion:"Cusco",
+    tipo_alojamiento:"Casa",
+    titulo:"Baratito noma",
+    servicios:["Cocina","Baño"]
+})
+
+db.alojamientos.insertOne({
+    nombrea:"Carmen",
+    ubicacion:"Cusco",
+    tipo_alojamiento:"Casa",
+    titulo:"",
+    servicios:"",
+
+
+
+})
+
+db.alojamientos.find()
