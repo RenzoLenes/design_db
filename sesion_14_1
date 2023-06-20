@@ -1,0 +1,116 @@
+//Mostrar todos los restaurantes
+use demo-cc47
+
+db.restaurants.find({cuisine:'Bolivian'})
+
+db.restaurants.updateMany({cuisine:'American'},{$set:{cuisine:'Peruvian'}})
+
+db.restaurants.updateMany({cuisine:'Bolivian'},{$set:{cuisine:'Peruvian'}})
+
+db.restaurants.find({cuisine:'American',borough:'Queens'}).count()
+
+db.restaurants.count({cuisine:'American',borough:'Queens'})
+
+db.restaurants.find({cuisine:{$regex:/^B/}})
+
+db.restaurants.find({cuisine:"Irish",borough:'Queens'},{name:1,_id:0})
+
+db.restaurants.find({},{cuisine:1,_id:0})
+
+
+db.restaurants.updateMany({cuisine:'CafÃ©/Coffee/Tea'},{$set:{cuisine:'Café/Coffee/Tea'}})
+
+db.restaurants.distinct('borough',{cuisine:'Peruvian'})
+
+db.restaurants.find({cuisine:'Peruvian'})
+
+db.restaurants.find({borough:'Bronx',cuisine:{$ne:'Mexican'}},{_id:0})
+
+db.restaurants.find({'borough':{$in:['Bronx','Queens']}})
+
+db.restaurants.find({'cuisine':{$in:['Bakery','American']}})
+
+db.restaurants.find({cuisine:{$ne:'Irish'},borough:{$ne:'Queens'}})
+
+db.restaurants.find({$and:[]})
+
+//Indicar los restaurant que tienen al menos una calificacion A
+db.restaurants.find()
+db.restaurants.find({'grades.grade':'A'})
+
+//Indicar los restaurantes que tiene 3 calificacions
+db.restaurants.find({grades:{$size:3}})
+
+//Indicar los restaurantes que tiene al menso 4 calificacions
+
+db.restaurants.find({grades:{$gte:{size:4}}})
+
+//Indicar la cantidad de restaurantes por cada distrito
+db.restaurants.aggregate(
+[
+    {
+        $group:{
+            _id:'$borough',
+            quantity:{
+                $count:{}
+            }
+        }
+    }
+]
+
+)
+//Indicar la cantidad de restaurantes por tipo de comida
+db.restaurants.aggregate(
+[
+    {
+        $group:{
+            _id:'$cuisine',
+            quantity:{
+                $count:{}
+            }
+        }
+    }
+]
+
+)
+//Indicar los distritos que tienen mas de 500 restaurantes
+db.restaurants.aggregate(
+    [
+        {
+            $group:{
+                _id:'$cuisine',
+                quantity:{
+                    $count:{}
+
+                }
+
+            }
+        },
+        {
+            $match:{
+                quantity:{$gt:500}
+            }
+        }
+    ]
+)
+
+//Indicar la cantidad de restuaantes pr tipo de comida que se encuentran en queens
+db.restaurants.aggregate(
+[
+    {
+        $match:{
+            borough:'Queens'
+        }
+    },
+
+    {
+        $group:{
+            _id:'$cuisine',
+            quantity:{
+                $count:{}
+            }
+        }
+    },
+
+]
+)
